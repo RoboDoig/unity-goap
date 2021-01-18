@@ -11,11 +11,20 @@ public class GOAP
     public Dictionary<string, int> startState;
     public Dictionary<string, int> goalState;
 
-    public GOAP(Agent _agent, List<Action> _availableActions, Dictionary<string, int> _startState, Dictionary<string, int> _goalState) {
+    public GOAP(Agent _agent, Dictionary<string, int> _startState, Dictionary<string, int> _goalState) {
         agent = _agent;
-        availableActions = _availableActions;
+        availableActions = agent.AvailableActions();
         startState = _startState;
         goalState = _goalState;
+
+        // start and goal states must have matching keys
+        foreach (KeyValuePair<string, int> stateComponent in startState) {
+            if (goalState.ContainsKey(stateComponent.Key)) {
+                goalState[stateComponent.Key] += startState[stateComponent.Key];
+            } else {
+                goalState.Add(stateComponent.Key, stateComponent.Value);
+            }
+        }
     }
 
     public void GeneratePlan() {
@@ -27,7 +36,7 @@ public class GOAP
         Node currentNode;
 
         // Node currentStateNode = new Node(null, 0, new List<WorldItem>(currentState), null, new List<Action>());
-        Node goalStateNode = new Node(null, 0, new Dictionary<string, int>(goalState), null, new List<Action>());
+        Node goalStateNode = new Node(null, 0, new Dictionary<string, int>(goalState), null, availableActions);
 
         // We begin at the goal state and work back to our current state
         openNodes.Add(goalStateNode);
@@ -45,7 +54,11 @@ public class GOAP
 
             // If we found a plan
             if (planFound) {
-                Debug.Log("Plan found!");
+                Debug.Log("Plan found in " + iterations.ToString() + " iterations");
+                while (currentNode.parent != null) {
+                    Debug.Log(currentNode.action.description);
+                    currentNode = currentNode.parent;
+                }
             }
 
             // What actions are possible to take from this node?
@@ -88,6 +101,7 @@ public class GOAP
                 openNodes.Add(neighborNode);
             }
         }
+        Debug.Log("No plan found");
     }
 
     Node LowestCostNode(List<Node> nodes) {
@@ -146,6 +160,21 @@ public class GOAP
         }
 
         return true;
+    }
+
+    void PrintState(Dictionary<string, int> state) {
+        string stateString = "";
+        foreach (KeyValuePair<string, int> stateComponent in state) {
+            stateString += stateComponent.Key + ": " + stateComponent.Value.ToString() + ", ";
+        }
+        Debug.Log(stateString);
+    }
+
+    void PrintActions(List<Action> actions) {
+        string actionsString  = "";
+        foreach (Action action in actions) {
+            actionsString += action.description + ", ";
+        }
     }
 
     public class Node {

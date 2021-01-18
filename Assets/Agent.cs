@@ -21,17 +21,12 @@ public class Agent : MonoBehaviour
     // Events
     private UnityEvent onActionComplete;
 
-    void Start() {
+    void Awake() {
         actionQueue = new List<Action>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         inventory = GetComponent<Inventory>();
         worldAgent = GetComponent<WorldAgent>();
         workTimer = 0f;
-
-        // Debug this agent's available actions
-        foreach (Action action in AvailableActions()) {
-            Debug.Log(action.description);
-        }
     }
 
     void Update() {
@@ -88,9 +83,13 @@ public class Agent : MonoBehaviour
         navMeshAgent.SetDestination(target);
     }
 
-    // Get the agent's current WorldItem state (inventory + stats)
-    public List<WorldItem> GetState() {
-        return new List<WorldItem>();
+    // Get the agent's current WorldItem state (inventory + stats) as a dictionary
+    public Dictionary<string, int> GetState() {
+        Dictionary<string, int> state = new Dictionary<string, int>();
+        foreach (WorldItem item in inventory.GetItems()) {
+            state.Add(item.itemDefinition.itemName, item.amount);
+        }
+        return state;
     }
 
     public void CreateObject(GameObject gameObject, Vector3 position, Quaternion rotation) {

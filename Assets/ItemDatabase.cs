@@ -14,6 +14,14 @@ public class ItemDatabase : MonoBehaviour
 
     [Header("Stats")]
     public WorldItemDefinition Health;
+    public WorldItemDefinition Hunger;
+    public WorldItemDefinition Strength;
+
+    [Header("Tools")]
+    public WorldItemDefinition Axe;
+    public WorldItemDefinition FishingRod;
+    public WorldItemDefinition Hammer;
+
 
     void Awake() {
         if (items != null) {
