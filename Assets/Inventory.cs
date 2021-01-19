@@ -93,7 +93,7 @@ public class Inventory : MonoBehaviour
     }
 
     public Dictionary<string, int> GetItemsAsState() {
-        Dictionary<string, int> itemsState = ItemDatabase.items.GetZeroState();
+        Dictionary<string, int> itemsState = new Dictionary<string, int>();
         foreach (InventoryItem inventoryItem in inventoryItems) {
             itemsState[inventoryItem.worldItem.AsKey()] += inventoryItem.worldItem.amount;
         }

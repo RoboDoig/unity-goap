@@ -13,7 +13,7 @@ public class GoapFactory : MonoBehaviour
         Dictionary<string, int> startState = agent.inventory.GetItemsAsState();
 
         // goal state
-        Dictionary<string, int> goalState = new Dictionary<string, int>{{"wood", 3}, {"gold", 1}};
+        Dictionary<string, int> goalState = new Dictionary<string, int>{{"wood", 11}, {"gold", 1}};
 
         // GOAP generation
         GOAP goap = new GOAP(agent, startState, goalState);

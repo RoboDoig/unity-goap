@@ -16,15 +16,6 @@ public class GOAP
         availableActions = agent.AvailableActions();
         startState = _startState;
         goalState = _goalState;
-
-        // start and goal states must have matching keys
-        // foreach (KeyValuePair<string, int> stateComponent in startState) {
-        //     if (goalState.ContainsKey(stateComponent.Key)) {
-        //         goalState[stateComponent.Key] += startState[stateComponent.Key];
-        //     } else {
-        //         goalState.Add(stateComponent.Key, stateComponent.Value);
-        //     }
-        // }
     }
 
     public void GeneratePlan() {
@@ -36,10 +27,10 @@ public class GOAP
         Node currentNode;
 
         // Node currentStateNode = new Node(null, 0, new List<WorldItem>(currentState), null, new List<Action>());
-        Node goalStateNode = new Node(null, 0, new Dictionary<string, int>(goalState), null, availableActions);
+        Node startStateNode = new Node(null, 0, new Dictionary<string, int>(startState), null, availableActions);
 
         // We begin at the goal state and work back to our current state
-        openNodes.Add(goalStateNode);
+        openNodes.Add(startStateNode);
 
         // As long as we have no plan and there are still open nodes to search, continue looking for plan
         int iterations = 0;
@@ -55,8 +46,10 @@ public class GOAP
             // If we found a plan
             if (planFound) {
                 Debug.Log("Plan found in " + iterations.ToString() + " iterations");
+                List<Action> actionList = new List<Action>();
                 while (currentNode.parent != null) {
                     Debug.Log(currentNode.action.description);
+                    actionList.Add(currentNode.action);
                     currentNode = currentNode.parent;
                 }
             }
@@ -80,21 +73,29 @@ public class GOAP
                     if (!neighborNode.state.ContainsKey(effect.AsKey())) {
                         neighborNode.state.Add(effect.AsKey(), 0);
                     }
-                    neighborNode.state[effect.AsKey()] -= effect.amount;
+                    neighborNode.state[effect.AsKey()] += effect.amount;
                 }
 
                 // Update node with action preconditions
                 foreach (WorldItem precondition in neighbor.preconditions) {
-                    if (!neighborNode.state.ContainsKey(precondition.AsKey())) {
-                        neighborNode.state.Add(precondition.AsKey(), 0);
-                    }
-                    neighborNode.state[precondition.AsKey()] += precondition.amount;
+                    if (precondition.itemDefinition.consumable)
+                        neighborNode.state[precondition.AsKey()] -= precondition.amount;
                 }
 
                 // Distance cost
                 int dCost = 0;
-                foreach (KeyValuePair<string, int> stateComponent in startState) {
-                    dCost += neighborNode.state[stateComponent.Key] - startState[stateComponent.Key];
+                foreach (KeyValuePair<string, int> stateComponent in goalState) {
+                    if (neighborNode.state.ContainsKey(stateComponent.Key)) {
+                        // add distance between state and goal state components, should be smaller if node state is closer to goal state
+                        dCost += stateComponent.Value - neighborNode.state[stateComponent.Key];
+                    } else {
+                        // if goal state is not present in node state, set maximum distance
+                        dCost += stateComponent.Value;
+                    }
+                    // standard penalty for an extra node
+                    dCost += 1;
+                    // distance penalty (?)
+                    dCost += (int)(agent.worldAgent.transform.position - neighborNode.action.parentObject.transform.position).magnitude;
                 }
                 neighborNode.runningCost += dCost;
 
@@ -117,22 +118,20 @@ public class GOAP
         return lowestCostNode;
     }
 
-    // For a given node, IsEndStateReached returns true if the node state satisfies the startState, and false otherwise
-    // The state is satisfied if all state components of the node state are less than or equal to the start state
+    // For a given node, IsEndStateReached returns true if the node state satisfies the goal state
     bool IsEndStateReached(Node node) {
         Debug.Log(node.action);
         PrintState(node.state);
-        // For all state components
-        foreach (KeyValuePair<string, int> stateComponent in node.state) {
-            // If this component exists in the start state
-            if (startState.ContainsKey(stateComponent.Key)) {
-                // if the amount for this component is greater than in the start state, return false
-                if (stateComponent.Value > startState[stateComponent.Key]) {
-                    return false;
-                }
-            } else {
-                // if this state component is not in the start state return false
-                return true;
+        // For all state components in the goal state
+        foreach (KeyValuePair<string, int> stateComponent in goalState) {
+            // If the node state doesn't have a component of the goal state, end is not reached
+            if (!node.state.ContainsKey(stateComponent.Key)) {
+                return false;
+            }
+
+            // If the node state has less than the target goal state, end is not reached
+            if (node.state[stateComponent.Key] < stateComponent.Value) {
+                return false;
             }
         }
 
@@ -151,14 +150,14 @@ public class GOAP
     }
 
     bool IsNeighbor(Action action, Node node) {
-        foreach (WorldItem effect in action.effects) {
-            if (node.state.ContainsKey(effect.AsKey())) {
-                if (node.state[effect.AsKey()] < effect.amount) {
-                    // return false;
-                } else {
-                    return true;
-                }
-            } else {
+        foreach (WorldItem precondition in action.preconditions) {
+            // if node state does not have component of action preconditions, action is not a neighbor
+            if (!node.state.ContainsKey(precondition.AsKey())) {
+                return false;
+            }
+
+            // if the node state has less than the precondition amount, action is not a neighbor
+            if (node.state[precondition.AsKey()] < precondition.amount) {
                 return false;
             }
         }
