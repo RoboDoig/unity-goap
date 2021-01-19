@@ -91,4 +91,13 @@ public class Inventory : MonoBehaviour
         }
         return worldItemList;
     }
+
+    public Dictionary<string, int> GetItemsAsState() {
+        Dictionary<string, int> itemsState = ItemDatabase.items.GetZeroState();
+        foreach (InventoryItem inventoryItem in inventoryItems) {
+            itemsState[inventoryItem.worldItem.AsKey()] += inventoryItem.worldItem.amount;
+        }
+
+        return itemsState;
+    }
 }

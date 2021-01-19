@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ba1fd78b592d5949b7f1277d7c9cf90, type: 3}
-  m_Name: FishingRod
+  m_Name: Hammer
   m_EditorClassIdentifier: 
-  itemName: axe
+  itemName: hammer
   icon: {fileID: 0}
   baseType: 1
   maxStack: 1

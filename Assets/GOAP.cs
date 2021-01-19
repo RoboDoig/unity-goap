@@ -18,13 +18,13 @@ public class GOAP
         goalState = _goalState;
 
         // start and goal states must have matching keys
-        foreach (KeyValuePair<string, int> stateComponent in startState) {
-            if (goalState.ContainsKey(stateComponent.Key)) {
-                goalState[stateComponent.Key] += startState[stateComponent.Key];
-            } else {
-                goalState.Add(stateComponent.Key, stateComponent.Value);
-            }
-        }
+        // foreach (KeyValuePair<string, int> stateComponent in startState) {
+        //     if (goalState.ContainsKey(stateComponent.Key)) {
+        //         goalState[stateComponent.Key] += startState[stateComponent.Key];
+        //     } else {
+        //         goalState.Add(stateComponent.Key, stateComponent.Value);
+        //     }
+        // }
     }
 
     public void GeneratePlan() {
@@ -94,14 +94,16 @@ public class GOAP
                 // Distance cost
                 int dCost = 0;
                 foreach (KeyValuePair<string, int> stateComponent in startState) {
-                    dCost += neighborNode.state[stateComponent.Key] - goalState[stateComponent.Key];
+                    dCost += neighborNode.state[stateComponent.Key] - startState[stateComponent.Key];
                 }
                 neighborNode.runningCost += dCost;
 
                 openNodes.Add(neighborNode);
             }
         }
-        Debug.Log("No plan found");
+
+        if (!planFound)
+            Debug.Log("No plan found");
     }
 
     Node LowestCostNode(List<Node> nodes) {
@@ -118,6 +120,8 @@ public class GOAP
     // For a given node, IsEndStateReached returns true if the node state satisfies the startState, and false otherwise
     // The state is satisfied if all state components of the node state are less than or equal to the start state
     bool IsEndStateReached(Node node) {
+        Debug.Log(node.action);
+        PrintState(node.state);
         // For all state components
         foreach (KeyValuePair<string, int> stateComponent in node.state) {
             // If this component exists in the start state
@@ -150,7 +154,7 @@ public class GOAP
         foreach (WorldItem effect in action.effects) {
             if (node.state.ContainsKey(effect.AsKey())) {
                 if (node.state[effect.AsKey()] < effect.amount) {
-                    return false;
+                    // return false;
                 } else {
                     return true;
                 }
