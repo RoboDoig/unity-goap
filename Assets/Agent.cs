@@ -93,7 +93,7 @@ public class Agent : MonoBehaviour
         Instantiate(gameObject, position, rotation);
     }
 
-    public void FindPlan(Dictionary<string, int> goalState) {
+    public bool FindPlan(Dictionary<string, int> goalState) {
         Dictionary<string, int> startState = inventory.GetItemsAsState();
         Dictionary<string, int> combinedState = new Dictionary<string, int>(goalState);
 
@@ -112,7 +112,10 @@ public class Agent : MonoBehaviour
             foreach (Action action in actionList) {
                 AddActionToQueue(action);
             }
+            return true;
         }
+
+        return false;
     }
 
     public IEnumerator StatsTick() {
