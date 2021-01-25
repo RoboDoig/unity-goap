@@ -21,6 +21,7 @@ public class ItemDatabase : MonoBehaviour
         public WorldItemDefinition Health;
         public WorldItemDefinition Energy;
         public WorldItemDefinition Strength;
+        public WorldItemDefinition Happiness;
     }
 
     [Serializable]
