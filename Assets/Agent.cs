@@ -123,7 +123,10 @@ public class Agent : MonoBehaviour
         yield return new WaitForSeconds(60);
 
         inventory.RemoveItem(new WorldItem(ItemDatabase.items.stats.Energy, 1));
-        inventory.RemoveItem(new WorldItem(ItemDatabase.items.stats.Happiness, 1));
+
+        if (!inventory.HasItem(new WorldItem(ItemDatabase.items.stats.Energy, 1))) {
+            inventory.RemoveItem(new WorldItem(ItemDatabase.items.stats.Health, 1));
+        }
 
         StartCoroutine(StatsTick());
     }
