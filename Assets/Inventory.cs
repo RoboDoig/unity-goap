@@ -1,14 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private List<InventoryItem> inventoryItems = new List<InventoryItem>();
+    public List<InventoryItem> inventoryItems = new List<InventoryItem>();
     public List<WorldItem> startItems;
     public Agent agent;
 
-    class InventoryItem {
+    [Serializable]
+    public class InventoryItem {
         public WorldItem worldItem;
         public List<Action> associatedActions;
 
@@ -18,7 +20,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    void Start() {
+    void Awake() {
         agent = GetComponent<Agent>();
 
         foreach(WorldItem item in startItems) {
@@ -93,9 +95,10 @@ public class Inventory : MonoBehaviour
     }
 
     public Dictionary<string, int> GetItemsAsState() {
-        Dictionary<string, int> itemsState = ItemDatabase.items.GetZeroState();
+        Dictionary<string, int> itemsState = new Dictionary<string, int>();
         foreach (InventoryItem inventoryItem in inventoryItems) {
-            itemsState[inventoryItem.worldItem.AsKey()] += inventoryItem.worldItem.amount;
+            itemsState.Add(inventoryItem.worldItem.AsKey(), inventoryItem.worldItem.amount);
+            // itemsState[inventoryItem.worldItem.AsKey()] += inventoryItem.worldItem.amount;
         }
 
         return itemsState;
