@@ -109,6 +109,7 @@ public class Agent : MonoBehaviour
 
         // Give to agent
         if (actionList != null) {
+            Debug.Log(actionList.Count);
             foreach (Action action in actionList) {
                 AddActionToQueue(action);
             }
@@ -116,6 +117,14 @@ public class Agent : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool HasPlan() {
+        if (actionQueue.Count > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public IEnumerator StatsTick() {
