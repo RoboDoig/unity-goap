@@ -21,6 +21,9 @@ public class Agent : MonoBehaviour
     // Events
     public UnityEvent onActionComplete;
 
+    // Callbacks
+    public delegate void Callback();
+
     void Awake() {
         actionQueue = new List<Action>();
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -93,7 +96,7 @@ public class Agent : MonoBehaviour
         Instantiate(gameObject, position, rotation);
     }
 
-    public bool FindPlan(Dictionary<string, int> goalState) {
+    public void FindPlan(Dictionary<string, int> goalState, System.Action successCallback, System.Action failureCallback) {
         Dictionary<string, int> startState = inventory.GetItemsAsState();
         Dictionary<string, int> combinedState = new Dictionary<string, int>(goalState);
 
@@ -104,19 +107,8 @@ public class Agent : MonoBehaviour
         }
 
         // GOAP generation
-        GOAP goap = new GOAP(this, startState, combinedState);
-        List<Action> actionList = goap.GeneratePlan();
-
-        // Give to agent
-        if (actionList != null) {
-            Debug.Log(actionList.Count);
-            foreach (Action action in actionList) {
-                AddActionToQueue(action);
-            }
-            return true;
-        }
-
-        return false;
+        GOAP goap = new GOAP(this, startState, combinedState, successCallback, failureCallback);
+        goap.CreatePlan();
     }
 
     public bool HasPlan() {

@@ -10,13 +10,12 @@ public class IncreaseEnergyFSM : StateMachineBehaviour
         Agent agent = animator.GetComponent<Agent>();
 
         Dictionary<string, int> goalState = new Dictionary<string, int>{{"energy", 1}};
-        if (agent.FindPlan(goalState)) {
-            animator.SetBool("planInAction", true);
-        } else {
-            animator.SetTrigger("failure");
-        }
+        agent.FindPlan(goalState, 
+                        () => {animator.SetBool("planInAction", true);},
+                        () => {animator.SetTrigger("failure");}
+                      );
     }
-
+    
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{

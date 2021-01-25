@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class GOAP
 {
@@ -10,15 +11,24 @@ public class GOAP
     public List<Action> availableActions;
     public Dictionary<string, int> startState;
     public Dictionary<string, int> goalState;
+    public delegate void Callback();
+    System.Action successCallback;
+    System.Action failureCallback;
 
-    public GOAP(Agent _agent, Dictionary<string, int> _startState, Dictionary<string, int> _goalState) {
+    public GOAP(Agent _agent, Dictionary<string, int> _startState, Dictionary<string, int> _goalState, System.Action _successCallback, System.Action _failureCallback) {
         agent = _agent;
         availableActions = agent.AvailableActions();
         startState = _startState;
         goalState = _goalState;
+        successCallback = _successCallback;
+        failureCallback = _failureCallback;
     }
 
-    public List<Action> GeneratePlan() {
+    public void CreatePlan() {
+        agent.StartCoroutine(GeneratePlan());
+    }
+
+    private IEnumerator GeneratePlan() {
         bool planFound = false;
         List<Action> actionList = new List<Action>();
 
@@ -57,7 +67,10 @@ public class GOAP
                     currentNode = currentNode.parent;
                 }
                 actionList.Reverse();
-                return actionList;
+                foreach (Action action in actionList) {
+                    agent.AddActionToQueue(action);
+                }
+                successCallback();
             }
 
             // What actions are possible to take from this node?
@@ -106,12 +119,15 @@ public class GOAP
 
                 openNodes.Add(neighborNode);
             }
+            yield return null;
         }
 
-        if (!planFound)
+        if (!planFound) {
             Debug.Log("No plan found");
+            failureCallback();
+        }
 
-        return null;
+        yield return null;
     }
 
     Node LowestCostNode(List<Node> nodes) {
