@@ -19,7 +19,7 @@ public class ItemDatabase : MonoBehaviour
     [Serializable]
     public struct Stats {
         public WorldItemDefinition Health;
-        public WorldItemDefinition Hunger;
+        public WorldItemDefinition Energy;
         public WorldItemDefinition Strength;
     }
 

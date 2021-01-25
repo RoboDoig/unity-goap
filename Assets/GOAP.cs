@@ -18,15 +18,15 @@ public class GOAP
         goalState = _goalState;
     }
 
-    public void GeneratePlan() {
+    public List<Action> GeneratePlan() {
         bool planFound = false;
+        List<Action> actionList = new List<Action>();
 
         List<Node> openNodes = new List<Node>();
         List<Node> closedNodes = new List<Node>();
         List<Action> actionPlan = new List<Action>();
         Node currentNode;
 
-        // Node currentStateNode = new Node(null, 0, new List<WorldItem>(currentState), null, new List<Action>());
         Node startStateNode = new Node(null, 0, new Dictionary<string, int>(startState), null, availableActions);
 
         // We begin at the goal state and work back to our current state
@@ -37,6 +37,11 @@ public class GOAP
         while (!planFound && openNodes.Count > 0) {
             iterations++;
 
+            // DEBUG BREAK
+            if (iterations > 10000) {
+                break;
+            }
+
             // start at the lowest cost node of the open nodes, check if we have reached plan
             currentNode = LowestCostNode(openNodes);
             openNodes.Remove(currentNode);
@@ -46,12 +51,13 @@ public class GOAP
             // If we found a plan
             if (planFound) {
                 Debug.Log("Plan found in " + iterations.ToString() + " iterations");
-                List<Action> actionList = new List<Action>();
                 while (currentNode.parent != null) {
                     Debug.Log(currentNode.action.description);
                     actionList.Add(currentNode.action);
                     currentNode = currentNode.parent;
                 }
+                actionList.Reverse();
+                return actionList;
             }
 
             // What actions are possible to take from this node?
@@ -78,6 +84,7 @@ public class GOAP
 
                 // Update node with action preconditions
                 foreach (WorldItem precondition in neighbor.preconditions) {
+                    // consumable needs to be extended, what if we are actively dropping item? maybe then it just needs to be a negative effect
                     if (precondition.itemDefinition.consumable)
                         neighborNode.state[precondition.AsKey()] -= precondition.amount;
                 }
@@ -92,10 +99,8 @@ public class GOAP
                         // if goal state is not present in node state, set maximum distance
                         dCost += stateComponent.Value;
                     }
-                    // standard penalty for an extra node
-                    dCost += 1;
-                    // distance penalty (?)
-                    dCost += (int)(agent.worldAgent.transform.position - neighborNode.action.parentObject.transform.position).magnitude;
+                    // standard penalty for this agent
+                    dCost += neighborNode.action.Cost(agent);
                 }
                 neighborNode.runningCost += dCost;
 
@@ -105,6 +110,8 @@ public class GOAP
 
         if (!planFound)
             Debug.Log("No plan found");
+
+        return null;
     }
 
     Node LowestCostNode(List<Node> nodes) {

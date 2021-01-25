@@ -19,7 +19,7 @@ public class Agent : MonoBehaviour
     public WorldAgent worldAgent {get; private set;}
 
     // Events
-    private UnityEvent onActionComplete;
+    public UnityEvent onActionComplete;
 
     void Awake() {
         actionQueue = new List<Action>();
@@ -27,6 +27,10 @@ public class Agent : MonoBehaviour
         inventory = GetComponent<Inventory>();
         worldAgent = GetComponent<WorldAgent>();
         workTimer = 0f;
+    }
+
+    void Start() {
+        StartCoroutine(StatsTick());
     }
 
     void Update() {
@@ -69,6 +73,8 @@ public class Agent : MonoBehaviour
         currentAction = null;
         workTimer = 0f;
 
+        Debug.Log("Action complete");
+
         // Fire an action complete event
         onActionComplete.Invoke();
     }
@@ -83,16 +89,37 @@ public class Agent : MonoBehaviour
         navMeshAgent.SetDestination(target);
     }
 
-    // Get the agent's current WorldItem state (inventory + stats) as a dictionary
-    public Dictionary<string, int> GetState() {
-        Dictionary<string, int> state = new Dictionary<string, int>();
-        foreach (WorldItem item in inventory.GetItems()) {
-            state.Add(item.itemDefinition.itemName, item.amount);
-        }
-        return state;
-    }
-
     public void CreateObject(GameObject gameObject, Vector3 position, Quaternion rotation) {
         Instantiate(gameObject, position, rotation);
+    }
+
+    public void FindPlan(Dictionary<string, int> goalState) {
+        Dictionary<string, int> startState = inventory.GetItemsAsState();
+        Dictionary<string, int> combinedState = new Dictionary<string, int>(goalState);
+
+        // Add goal and start state
+        foreach (KeyValuePair<string, int> stateComponent in goalState) {
+            if (startState.ContainsKey(stateComponent.Key))
+                combinedState[stateComponent.Key] += startState[stateComponent.Key];
+        }
+
+        // GOAP generation
+        GOAP goap = new GOAP(this, startState, combinedState);
+        List<Action> actionList = goap.GeneratePlan();
+
+        // Give to agent
+        if (actionList != null) {
+            foreach (Action action in actionList) {
+                AddActionToQueue(action);
+            }
+        }
+    }
+
+    public IEnumerator StatsTick() {
+        yield return new WaitForSeconds(60);
+
+        inventory.RemoveItem(new WorldItem(ItemDatabase.items.stats.Energy, 1));
+
+        StartCoroutine(StatsTick());
     }
 }

@@ -118,6 +118,6 @@ public class Action
 
     // What is the cost of doing this action for a given agent?
     public virtual int Cost(Agent agent) {
-        return 1;
+        return 1 + (int)(agent.worldAgent.transform.position - parentObject.transform.position).magnitude;;
     }
 }
