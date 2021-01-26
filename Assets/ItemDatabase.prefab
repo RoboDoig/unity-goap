@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7187810484471395142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7187810484471395143}
+  - component: {fileID: 7187810484471395136}
+  m_Layer: 0
+  m_Name: ItemDatabase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7187810484471395143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7187810484471395142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.272427, y: -19.752632, z: -0.35185313}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7187810484471395136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7187810484471395142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb5c98d4ff50d24e88e745b101ee8aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resources:
+    Food: {fileID: 11400000, guid: aa592356aff4d2b4988403dd3609b7db, type: 2}
+    Wood: {fileID: 11400000, guid: 24c839e3cfa9365478c75f6012500cae, type: 2}
+    Stone: {fileID: 11400000, guid: c53922b16f948e74c8c4571fe46a4186, type: 2}
+    Gold: {fileID: 11400000, guid: 98fb9fa6de6a99942a6796627ad20444, type: 2}
+  stats:
+    Health: {fileID: 11400000, guid: d8643996b65aeb349b0ccd0b1d1fa43c, type: 2}
+    Energy: {fileID: 11400000, guid: de32b60566fdbca4bba06a49b3f8576a, type: 2}
+    Strength: {fileID: 11400000, guid: 789631fbf7895494a9862a3db26e5d07, type: 2}
+    Happiness: {fileID: 11400000, guid: 5f0afe132a28b6c42bef6b7bfaa8ca7b, type: 2}
+  tools:
+    Axe: {fileID: 11400000, guid: fdee8b4c427ef354f85d73f4ecd48e0c, type: 2}
+    FishingRod: {fileID: 11400000, guid: 27f90116dca7c0b49a690a825152d7b5, type: 2}
+    Hammer: {fileID: 11400000, guid: 2df69f6dbe6727b4eaefe9b0a5b65f8f, type: 2}
