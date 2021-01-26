@@ -67,10 +67,12 @@ public class Action
     // Request to reserve action so that other agents cannot use it. Some actions, might not need to be reserved, e.g. common actions
     public void Reserve(Agent agent) {
         inUse = true;
+        agentUsing = agent;
     }
 
     public void DeReserve(Agent agent) {
         inUse = false;
+        agentUsing = null;
     }
 
     // Tells a given agent how to perform this action
