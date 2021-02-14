@@ -388,6 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c27761c7d428a40bd05ac7fceb4d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionNameText: {fileID: 8492116755584792998}
   itemIcon: {fileID: 1028207970560700632, guid: dc1d5ddd9f2f022449b6841e6f7e646a, type: 3}
   preconditionGridLayout: {fileID: 8821664204758444919}
   effectGridLayout: {fileID: 8201411504349201328}

@@ -34,6 +34,9 @@ public class UIManager : MonoBehaviour
             ActionIndicator actionIndicator = Instantiate(interactionPanel.actionEntryPrefab, transform);
             actionIndicator.transform.SetParent(interactionPanel.actionListPanel.transform);
 
+            // Add the action title
+            actionIndicator.actionNameText.text = action.description;
+
             // Add precondition icons
             foreach (WorldItem precondition in action.preconditions) {
                 Image itemIcon = Instantiate(actionIndicator.itemIcon, transform);
