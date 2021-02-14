@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Food
   m_EditorClassIdentifier: 
   itemName: food
-  icon: {fileID: 0}
+  icon: {fileID: 2273385847601384844, guid: 4ec33ed81cf632849899bc0a83751738, type: 3}
   baseType: 0
   maxStack: 100
   consumable: 1

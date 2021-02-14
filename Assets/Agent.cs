@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 public class Agent : MonoBehaviour
 {
@@ -90,6 +89,17 @@ public class Agent : MonoBehaviour
     // Sets the agent's destination
     public void SetDestination(Vector3 target) {
         navMeshAgent.SetDestination(target);
+    }
+
+    public void SetDestinationRandom(float radius) {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += transform.position;
+        NavMeshHit hit;
+        Vector3 finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1)) {
+            finalPosition = hit.position;
+        }
+        SetDestination(finalPosition);
     }
 
     public void CreateObject(GameObject gameObject, Vector3 position, Quaternion rotation) {

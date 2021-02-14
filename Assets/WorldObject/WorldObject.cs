@@ -25,4 +25,17 @@ public class WorldObject : MonoBehaviour
             // need a check in here that action is not reserved?
         }
     }
+
+    public struct InformationStruct {
+        public string objectName;
+        public List<Action> actions;
+    }
+
+    public InformationStruct GetObjectInformation() {
+        InformationStruct informationStruct = new InformationStruct();
+        informationStruct.objectName = objectName;
+        informationStruct.actions = actions;
+
+        return informationStruct;
+    }
 }
