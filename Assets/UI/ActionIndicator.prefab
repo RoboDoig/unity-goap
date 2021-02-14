@@ -111,8 +111,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -9.985901}
+  m_SizeDelta: {x: 0, y: -19.972}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &189735943893492747
 CanvasRenderer:
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 10
     m_Right: 10
-    m_Top: 20
+    m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
   m_StartCorner: 0
@@ -211,8 +211,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -9.985901}
+  m_SizeDelta: {x: 0, y: -19.972}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1737437750104974565
 CanvasRenderer:
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 10
     m_Right: 10
-    m_Top: 20
+    m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
   m_StartCorner: 0
@@ -392,6 +392,7 @@ MonoBehaviour:
   itemIcon: {fileID: 1028207970560700632, guid: dc1d5ddd9f2f022449b6841e6f7e646a, type: 3}
   preconditionGridLayout: {fileID: 8821664204758444919}
   effectGridLayout: {fileID: 8201411504349201328}
+  addItemButton: {fileID: 0}
 --- !u!1 &8154865859046924710
 GameObject:
   m_ObjectHideFlags: 0

@@ -52,4 +52,9 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
+    // A panel for adding preconditions or effects to an action
+    public void CreateAddItemPanel(Action action) {
+
+    }
 }
