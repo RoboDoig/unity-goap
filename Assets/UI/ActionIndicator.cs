@@ -10,4 +10,5 @@ public class ActionIndicator : MonoBehaviour
     public Image itemIcon;
     public GridLayoutGroup preconditionGridLayout;
     public GridLayoutGroup effectGridLayout;
+    public Button addItemButton;
 }
