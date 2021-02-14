@@ -8,6 +8,6 @@ public class InteractionPanel : MonoBehaviour
 {
     public Button closeButton;
     public TMP_Text objectNameText;
-    public Button actionEntryPrefab;
+    public ActionIndicator actionEntryPrefab;
     public VerticalLayoutGroup actionListPanel;
 }

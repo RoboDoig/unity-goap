@@ -28,5 +28,25 @@ public class UIManager : MonoBehaviour
 
         // Set this panel to close on the close button click
         interactionPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
+
+        // Update the actions panel
+        foreach (Action action in informationStruct.actions) {
+            ActionIndicator actionIndicator = Instantiate(interactionPanel.actionEntryPrefab, transform);
+            actionIndicator.transform.SetParent(interactionPanel.actionListPanel.transform);
+
+            // Add precondition icons
+            foreach (WorldItem precondition in action.preconditions) {
+                Image itemIcon = Instantiate(actionIndicator.itemIcon, transform);
+                itemIcon.transform.SetParent(actionIndicator.preconditionGridLayout.transform);
+                itemIcon.sprite = precondition.itemDefinition.icon;
+            }
+
+            // Add effect icons
+            foreach (WorldItem effect in action.effects) {
+                Image itemIcon = Instantiate(actionIndicator.itemIcon, transform);
+                itemIcon.transform.SetParent(actionIndicator.effectGridLayout.transform);
+                itemIcon.sprite = effect.itemDefinition.icon;
+            }
+        }
     }
 }

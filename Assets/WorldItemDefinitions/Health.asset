@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Health
   m_EditorClassIdentifier: 
   itemName: health
-  icon: {fileID: 0}
+  icon: {fileID: -5743514602376443267, guid: 4ec33ed81cf632849899bc0a83751738, type: 3}
   baseType: 2
   maxStack: 100
   consumable: 1

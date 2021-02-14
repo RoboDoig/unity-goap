@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FishingRod
   m_EditorClassIdentifier: 
   itemName: fishingrod
-  icon: {fileID: 0}
+  icon: {fileID: -1544719591585537677, guid: 4ec33ed81cf632849899bc0a83751738, type: 3}
   baseType: 1
   maxStack: 1
   consumable: 0
