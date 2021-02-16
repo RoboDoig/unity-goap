@@ -3260,7 +3260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPanelPrefab: {fileID: 6565313092458066469, guid: 41e132043ad17c4408dc104dc5eb2575, type: 3}
-  itemPanelPrefab: {fileID: 7464072615638277060, guid: 075fa55e895639b4fbe16327d5c2605f, type: 3}
+  itemSelectPanelPrefab: {fileID: 2719100821242768126, guid: 28ccd0a80e6d05b4f8aaf82c2833eb68, type: 3}
 --- !u!4 &1306854155 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4727910866131530, guid: 2f1cf358cb2eb1c43b8f7ecdad486700, type: 3}

@@ -22,13 +22,13 @@ public class PlayerInterface : MonoBehaviour
         transform.position += (horizontalMovement + forwardMovement).normalized * Time.deltaTime * moveSpeed;
 
         // Open item panel
-        if (Input.GetKeyDown(KeyCode.I)) {
-            UIManager.singleton.CreateItemPanel();
-        }
+        // if (Input.GetKeyDown(KeyCode.I)) {
+        //     UIManager.singleton.CreateItemPanel();
+        // }
         
         if (Input.GetMouseButtonDown(0)) {
             if (EventSystem.current.IsPointerOverGameObject()) {
-                
+
             } else {
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

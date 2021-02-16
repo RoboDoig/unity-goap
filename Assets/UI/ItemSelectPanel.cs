@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemPanel : MonoBehaviour
+public class ItemSelectPanel : MonoBehaviour
 {
     public Button closeButton;
-    public GridLayoutGroup itemGridLayout;
-    public Image itemDisplayPrefab;
+    public GridLayoutGroup itemIconGridLayout;
 }

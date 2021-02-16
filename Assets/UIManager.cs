@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager singleton;
     public GameObject interactionPanelPrefab;
-    public GameObject itemPanelPrefab;
+    public GameObject itemSelectPanelPrefab;
 
     void Awake() {
         if (singleton != null) {
@@ -35,6 +35,9 @@ public class UIManager : MonoBehaviour
             ActionIndicator actionIndicator = Instantiate(interactionPanel.actionEntryPrefab, transform);
             actionIndicator.transform.SetParent(interactionPanel.actionListPanel.transform);
 
+            // Link the add item button
+            actionIndicator.addItemButton.onClick.AddListener(() => {CreateItemSelectPanel(interactionPanel, action);});
+
             // Add the action title
             actionIndicator.actionNameText.text = action.description;
 
@@ -54,21 +57,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void CreateItemPanel() {
-        GameObject obj = Instantiate(itemPanelPrefab, transform);
+    public void CreateItemSelectPanel(InteractionPanel interactionPanel, Action targetAction) {
+        GameObject obj = Instantiate(itemSelectPanelPrefab, transform);
         obj.transform.SetParent(transform);
         obj.transform.position = Input.mousePosition;
-        ItemPanel itemPanel = obj.GetComponent<ItemPanel>();
+        ItemSelectPanel itemSelectPanel = obj.GetComponent<ItemSelectPanel>();
 
         // Set this panel to close on the close button click
-        itemPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
-
-        // Populate with items - for now just hard coded ones - TODO
-        List<WorldItem> playerItems = new List<WorldItem>{new WorldItem(ItemDatabase.items.resources.Gold, 1), new WorldItem(ItemDatabase.items.resources.Gold, 1), new WorldItem(ItemDatabase.items.resources.Gold, 1)};
-        foreach (WorldItem item in playerItems) {
-            Image itemIcon = Instantiate(itemPanel.itemDisplayPrefab, transform);
-            itemIcon.transform.SetParent(itemPanel.itemGridLayout.transform);
-            itemIcon.sprite = item.itemDefinition.icon;
-        }
+        itemSelectPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
+        // Set parent panel to close select panel on close
+        interactionPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
     }
 }
