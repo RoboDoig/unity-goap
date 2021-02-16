@@ -1169,6 +1169,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c96b123a31c4d64fbd84b0fcb083896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closeButton: {fileID: 7464072615093011331}
+  itemGridLayout: {fileID: 4362047427058217702}
+  itemDisplayPrefab: {fileID: 1028207970560700632, guid: dc1d5ddd9f2f022449b6841e6f7e646a, type: 3}
 --- !u!1 &7464072615668900536
 GameObject:
   m_ObjectHideFlags: 0

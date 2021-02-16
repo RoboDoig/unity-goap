@@ -55,6 +55,20 @@ public class UIManager : MonoBehaviour
     }
 
     public void CreateItemPanel() {
-        
+        GameObject obj = Instantiate(itemPanelPrefab, transform);
+        obj.transform.SetParent(transform);
+        obj.transform.position = Input.mousePosition;
+        ItemPanel itemPanel = obj.GetComponent<ItemPanel>();
+
+        // Set this panel to close on the close button click
+        itemPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
+
+        // Populate with items - for now just hard coded ones - TODO
+        List<WorldItem> playerItems = new List<WorldItem>{new WorldItem(ItemDatabase.items.resources.Gold, 1), new WorldItem(ItemDatabase.items.resources.Gold, 1), new WorldItem(ItemDatabase.items.resources.Gold, 1)};
+        foreach (WorldItem item in playerItems) {
+            Image itemIcon = Instantiate(itemPanel.itemDisplayPrefab, transform);
+            itemIcon.transform.SetParent(itemPanel.itemGridLayout.transform);
+            itemIcon.sprite = item.itemDefinition.icon;
+        }
     }
 }
