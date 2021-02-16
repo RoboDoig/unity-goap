@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager singleton;
     public GameObject interactionPanelPrefab;
+    public GameObject itemPanelPrefab;
 
     void Awake() {
         if (singleton != null) {
@@ -53,8 +54,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // A panel for adding preconditions or effects to an action
-    public void CreateAddItemPanel(Action action) {
-
+    public void CreateItemPanel() {
+        
     }
 }

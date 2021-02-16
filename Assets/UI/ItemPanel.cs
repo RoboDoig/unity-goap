@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddItemPanel : MonoBehaviour
+public class ItemPanel : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

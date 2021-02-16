@@ -52,6 +52,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    // Should return true if inventory containes item in >= item amount, fals otherwise
     public bool HasItem(WorldItem item) {
         // AND HERE TODO
         foreach(InventoryItem inventoryItem in inventoryItems) {

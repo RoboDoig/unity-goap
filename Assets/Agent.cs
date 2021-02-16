@@ -75,8 +75,6 @@ public class Agent : MonoBehaviour
         currentAction = null;
         workTimer = 0f;
 
-        Debug.Log("Action complete");
-
         // Fire an action complete event
         onActionComplete.Invoke();
     }
@@ -129,6 +127,7 @@ public class Agent : MonoBehaviour
         }
     }
 
+    // Background task that updates timed stats
     public IEnumerator StatsTick() {
         yield return new WaitForSeconds(60);
 
