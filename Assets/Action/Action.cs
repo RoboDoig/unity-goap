@@ -33,7 +33,7 @@ public class Action
         baseWorkTime = 1f;
     }
 
-    // Checks if a given agent can perform this action
+    // Checks if a given agent could perform this action
     public bool CheckProcedural(Agent agent) {
         // Check action is not in use (reserved)
         if (inUse) {
@@ -121,5 +121,10 @@ public class Action
     // What is the cost of doing this action for a given agent?
     public virtual int Cost(Agent agent) {
         return 1 + (int)(agent.worldAgent.transform.position - parentObject.transform.position).magnitude;;
+    }
+
+    // Add an effect to this action
+    public virtual void AddEffect(WorldItem effect) {
+        effects.Add(effect);
     }
 }

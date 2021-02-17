@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager singleton;
     public GameObject interactionPanelPrefab;
-    public GameObject itemPanelPrefab;
+    public GameObject itemSelectPanelPrefab;
 
     void Awake() {
         if (singleton != null) {
@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
         singleton = this;
     }
 
+    // TODO - maybe UI panels should have base and subclasses that implement their own creation methods
     public void CreateInteractionPanel(WorldObject.InformationStruct informationStruct) {
         GameObject obj = Instantiate(interactionPanelPrefab, transform);
         obj.transform.SetParent(transform);
@@ -34,6 +35,9 @@ public class UIManager : MonoBehaviour
         foreach (Action action in informationStruct.actions) {
             ActionIndicator actionIndicator = Instantiate(interactionPanel.actionEntryPrefab, transform);
             actionIndicator.transform.SetParent(interactionPanel.actionListPanel.transform);
+
+            // Link the add item button
+            actionIndicator.addItemButton.onClick.AddListener(() => {CreateItemSelectPanel(interactionPanel, action);});
 
             // Add the action title
             actionIndicator.actionNameText.text = action.description;
@@ -54,7 +58,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void CreateItemPanel() {
-        
+    public void CreateItemSelectPanel(InteractionPanel interactionPanel, Action targetAction) {
+        GameObject obj = Instantiate(itemSelectPanelPrefab, transform);
+        obj.transform.SetParent(transform);
+        obj.transform.position = Input.mousePosition;
+        ItemSelectPanel itemSelectPanel = obj.GetComponent<ItemSelectPanel>();
+
+        // Set this panel to close on the close button click
+        itemSelectPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
+        // Set parent panel to close select panel on close
+        interactionPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
+
+        // Add the item icons
+        List<WorldItem> availableItems = new List<WorldItem>{new WorldItem(ItemDatabase.items.resources.Gold, 1), new WorldItem(ItemDatabase.items.resources.Wood, 1), , new WorldItem(ItemDatabase.items.resources.Stone, 1)};
+        foreach (WorldItem item in availableItems) {
+            Button itemIcon = Instantiate(itemSelectPanel.itemIconButton, transform);
+            itemIcon.transform.SetParent(itemSelectPanel.itemIconGridLayout.transform);
+            itemIcon.image.sprite = item.itemDefinition.icon;
+            // Add function to the icon, adds the world item to the action's effects
+            itemIcon.onClick.AddListener(() => {targetAction.AddEffect(item);});
+        }
     }
 }
