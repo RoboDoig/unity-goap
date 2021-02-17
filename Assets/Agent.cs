@@ -10,6 +10,7 @@ public class Agent : MonoBehaviour
     public float reachDistance = 1f;  
 
     private NavMeshAgent navMeshAgent;
+    [HideInInspector]
     public Inventory inventory;
     private List<Action> actionQueue;
     private Action currentAction;
@@ -18,6 +19,7 @@ public class Agent : MonoBehaviour
     public WorldAgent worldAgent {get; private set;}
 
     // Events
+    [HideInInspector]
     public UnityEvent onActionComplete;
 
     // Callbacks

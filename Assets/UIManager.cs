@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
         interactionPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
 
         // Add the item icons
-        List<WorldItem> availableItems = new List<WorldItem>{new WorldItem(ItemDatabase.items.resources.Gold, 1), new WorldItem(ItemDatabase.items.resources.Wood, 1), , new WorldItem(ItemDatabase.items.resources.Stone, 1)};
+        List<WorldItem> availableItems = new List<WorldItem>{new WorldItem(ItemDatabase.items.resources.Gold, 1), new WorldItem(ItemDatabase.items.resources.Wood, 1), new WorldItem(ItemDatabase.items.resources.Stone, 1)};
         foreach (WorldItem item in availableItems) {
             Button itemIcon = Instantiate(itemSelectPanel.itemIconButton, transform);
             itemIcon.transform.SetParent(itemSelectPanel.itemIconGridLayout.transform);

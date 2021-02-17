@@ -7,7 +7,7 @@ public class IncreaseEnergyFSM : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Agent agent = animator.GetComponent<Agent>();
+        Agent agent = animator.GetComponentInParent<Agent>();
 
         Dictionary<string, int> goalState = new Dictionary<string, int>{{"energy", 1}};
         agent.FindPlan(goalState, 
