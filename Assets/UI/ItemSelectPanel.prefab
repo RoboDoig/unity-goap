@@ -378,6 +378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closeButton: {fileID: 2719100821252839814}
   itemIconGridLayout: {fileID: 2719100821332277926}
+  itemIconButton: {fileID: 6321486480168305523, guid: dcbc0abce2e1dff45addb86f14b9aea7, type: 3}
 --- !u!1 &2719100821252839812
 GameObject:
   m_ObjectHideFlags: 0

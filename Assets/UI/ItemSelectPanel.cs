@@ -7,4 +7,5 @@ public class ItemSelectPanel : MonoBehaviour
 {
     public Button closeButton;
     public GridLayoutGroup itemIconGridLayout;
+    public Button itemIconButton;
 }

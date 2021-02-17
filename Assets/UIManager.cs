@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
         singleton = this;
     }
 
+    // TODO - maybe UI panels should have base and subclasses that implement their own creation methods
     public void CreateInteractionPanel(WorldObject.InformationStruct informationStruct) {
         GameObject obj = Instantiate(interactionPanelPrefab, transform);
         obj.transform.SetParent(transform);
@@ -67,5 +68,15 @@ public class UIManager : MonoBehaviour
         itemSelectPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
         // Set parent panel to close select panel on close
         interactionPanel.closeButton.onClick.AddListener(() => {Destroy(obj);});
+
+        // Add the item icons
+        List<WorldItem> availableItems = new List<WorldItem>{new WorldItem(ItemDatabase.items.resources.Gold, 1), new WorldItem(ItemDatabase.items.resources.Wood, 1), , new WorldItem(ItemDatabase.items.resources.Stone, 1)};
+        foreach (WorldItem item in availableItems) {
+            Button itemIcon = Instantiate(itemSelectPanel.itemIconButton, transform);
+            itemIcon.transform.SetParent(itemSelectPanel.itemIconGridLayout.transform);
+            itemIcon.image.sprite = item.itemDefinition.icon;
+            // Add function to the icon, adds the world item to the action's effects
+            itemIcon.onClick.AddListener(() => {targetAction.AddEffect(item);});
+        }
     }
 }
